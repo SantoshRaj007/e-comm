@@ -14,6 +14,7 @@ use App\Http\Controllers\ShopController;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
