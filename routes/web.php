@@ -29,6 +29,18 @@ Route::get('/shop/{categorySlug?}/{subCategorySlug?}',[ShopController::class,'in
 
 Route::get('product/{slug}',[ShopController::class,'product'])->name('front.product');
 
+Route::get('/cart', function (){
+    return view('front.cart');
+});
+
+Route::get('/login', function (){
+    return view('front.login');
+});
+
+Route::get('/register', function (){
+    return view('front.register');
+});
+
 Route::group(['prefix' => 'admin'],function(){
     Route::group(['middleware' => 'admin.guest'],function(){
         Route::get('/login',[AdminLoginController::class,'index'])->name('admin.login');
