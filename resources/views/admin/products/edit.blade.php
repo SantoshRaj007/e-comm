@@ -41,10 +41,24 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="description">Description</label>
-                                        <textarea name="description" id="description" cols="30" rows="10" class="summernote" placeholder="Description">{{ $product->description }}</textarea>
+                                        <label for="description">Short Description</label>
+                                        <textarea name="short_description" id="short_description" cols="30" rows="10" class="summernote" placeholder="">{{ $product->short_description }}</textarea>
                                     </div>
-                                </div>                                            
+                                </div>  
+                                
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="description">Description</label>
+                                        <textarea name="description" id="description" cols="30" rows="10" class="summernote" placeholder="">{{ $product->description }}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="description">Shipping and Returns</label>
+                                        <textarea name="shipping_returns" id="shipping_returns" cols="30" rows="10" class="summernote" placeholder="">{{ $product->shipping_returns }}</textarea>
+                                    </div>
+                                </div>
                             </div>
                         </div>	                                                                      
                     </div>
@@ -198,7 +212,19 @@
                                 <p class="error"></p>
                             </div>
                         </div>
-                    </div>                                 
+                    </div>
+                    
+                    <div class="card mb-3">
+                        <div class="card-body">	
+                            <h2 class="h4 mb-3">Related Products</h2>
+                            <div class="mb-3">  
+                                <select multiple class="related_products w-100" name="related_products" id="related_products">
+                                    
+                                </select>                              
+                                <p class="error"></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -216,6 +242,21 @@
 
 @section('customJs')
     <script>
+
+        $('.related_products').select2({
+            ajax: {
+                url: '{{ route("products.getProducts") }}',
+                dataType: 'json',
+                tags: true,
+                multiple: true,
+                minimumInputLength: 3,
+                processResults: function (data) {
+                    return {
+                        results: data.tags
+                    };
+                }
+            }
+        });
         
         $("#title").change(function(){
             element = $(this);
@@ -239,7 +280,7 @@
             event.preventDefault();
             var formArray = $(this).serializeArray();
             $.ajax({
-                url: '{{ route("products.update",$product->id) }}',
+                url: '{{ route('products.update',$product->id) }}',
                 type: 'put',
                 data: formArray,
                 dataType: 'json',

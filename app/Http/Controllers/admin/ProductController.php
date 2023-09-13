@@ -46,7 +46,7 @@ class ProductController extends Controller
             'title' => 'required',
             'slug' => 'required|unique:products',
             'price' => 'required|numeric',
-            'sku' => 'required|numeric',
+            'sku' => 'required|unique:products',
             'track_qty' => 'required|in:Yes,No',
             'category' => 'required|numeric',
             'is_featured' => 'required|in:Yes,No'
@@ -75,6 +75,8 @@ class ProductController extends Controller
             $product->sub_category_id = $request->sub_category;
             $product->brand_id = $request->brand;
             $product->is_featured = $request->is_featured;
+            $product->shipping_returns = $request->shipping_returns;
+            $product->short_description = $request->short_description;
             $product->save();
             
             //  Save Gallary Image
@@ -91,7 +93,7 @@ class ProductController extends Controller
                     $productImage->image = 'NULL';
                     $productImage->save();
 
-                    $imageName = $product->id.'-'.$productImage->id.'-'.$ext;
+                    $imageName = $product->id.'-'.$productImage->id.'-'.time().'.'.$ext;
                     $productImage->image = $imageName;
                     $productImage->save();
 
@@ -119,7 +121,7 @@ class ProductController extends Controller
 
             $request->session()->flash('success','Product added successfully..!!!');
 
-            return response([
+            return response()->json([
                 'status' => true,
                 'errors' => 'Product added successfully..!!!'
             ]);
@@ -165,7 +167,7 @@ class ProductController extends Controller
             'title' => 'required',
             'slug' => 'required|unique:products,slug,'.$product->id.',id',
             'price' => 'required|numeric',
-            'sku' => 'required|numeric:products,sku,'.$product->id.',id',
+            'sku' => 'required|unique:products,sku,'.$product->id.',id',
             'track_qty' => 'required|in:Yes,No',
             'category' => 'required|numeric',
             'is_featured' => 'required|in:Yes,No'
@@ -194,6 +196,8 @@ class ProductController extends Controller
             $product->sub_category_id = $request->sub_category;
             $product->brand_id = $request->brand;
             $product->is_featured = $request->is_featured;
+            $product->shipping_returns = $request->shipping_returns;
+            $product->short_description = $request->short_description;
             $product->save();
             
             //  Save Gallary Image
@@ -201,9 +205,9 @@ class ProductController extends Controller
 
             $request->session()->flash('success','Product updated successfully..!!!');
 
-            return response([
+            return response()->json([
                 'status' => true,
-                'errors' => 'Product updated successfully..!!!'
+                'errors' => 'Product updated succe ssfully..!!!'
             ]);
 
         } else {
@@ -213,5 +217,24 @@ class ProductController extends Controller
             ]);
         }
 
+    }
+
+    public function getProducts(Request $request) {
+
+        $tempProduct = [];
+        if ($request->term != "") {
+            $products = Product::where('title','like','%'.$request->term.'%')->get();
+
+            if ($products != null) {
+                foreach ($products as $product) {
+                    $tempProduct[] = array('id' => $product->id, 'text' => $product->title);
+                }
+            }
+        }
+
+        return response()->json([
+            'tags' => $tempProduct,
+            'status' => true
+        ]);
     }
 }

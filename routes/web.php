@@ -83,6 +83,8 @@ Route::group(['prefix' => 'admin'],function(){
         Route::post('/products',[ProductController::class,'store'])->name('products.store');  
         Route::get('/products/{product}/edit',[ProductController::class,'edit'])->name('products.edit');
         Route::put('/products/{product}',[ProductController::class,'update'])->name('products.update'); 
+        Route::get('/get-products',[ProductController::class,'getProducts'])->name('products.getProducts');
+
 
 
         Route::get('/product-subcategories',[ProductSubCategoryController::class,'index'])->name('product-subcategories.index');
