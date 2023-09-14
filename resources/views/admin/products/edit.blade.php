@@ -218,13 +218,14 @@
                         <div class="card-body">	
                             <h2 class="h4 mb-3">Related Products</h2>
                             <div class="mb-3">  
-                                <select multiple class="related_products w-100" name="related_products" id="related_products">
-                                    
+                                <select multiple class="related-product w-100" name="related_products" id="related_products">
+                                            
                                 </select>                              
                                 <p class="error"></p>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
             
@@ -243,7 +244,7 @@
 @section('customJs')
     <script>
 
-        $('.related_products').select2({
+        $('.related-product').select2({
             ajax: {
                 url: '{{ route("products.getProducts") }}',
                 dataType: 'json',

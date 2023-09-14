@@ -219,6 +219,41 @@ class ProductController extends Controller
 
     }
 
+
+    public function destroy($id, Request $request){
+
+        $product = Product::find($id);
+
+        if(empty($product)) {
+            $request->session()->flash('error','Product not found');
+            return response()->json([
+                'status' => false,
+                'notFound' => true
+            ]);
+        }
+
+        $productImage = ProductImage::where('product_id',$id)->get();
+
+        if (!empty($productImage)) {
+            foreach ($productImage as $productImages) {
+                File::delete(public_path('uploads/product/large/'.$productImages->image));
+                File::delete(public_path('uploads/product/small/'.$productImages->image));
+            }
+
+            ProductImage::where('product_id',$id)->delete();
+        }
+
+        $product->delete();
+        $request->session()->flash('success','Product deleted successfully');
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Product deleted successfully'
+        ]);
+    }
+
+
+
     public function getProducts(Request $request) {
 
         $tempProduct = [];
@@ -229,9 +264,9 @@ class ProductController extends Controller
                 foreach ($products as $product) {
                     $tempProduct[] = array('id' => $product->id, 'text' => $product->title);
                 }
-            }
+            } 
         }
-
+ 
         return response()->json([
             'tags' => $tempProduct,
             'status' => true

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('products',function(Blueprint $table){
             $table->text('short_description')->nullable()->after('description');
             $table->text('shipping_returns')->nullable()->after('short_description');
-            $table->text('releted_products')->nullable()->after('shipping_returns');
+            $table->text('related_products')->nullable()->after('shipping_returns');
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
         Schema::table('products',function(Blueprint $table){
             $table->dropColumn('short_description');
             $table->dropColumn('shipping_returns');
-            $table->dropColumn('releted_products');
+            $table->dropColumn('related_products');
         });
     }
 };
