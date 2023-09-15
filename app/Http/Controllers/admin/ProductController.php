@@ -11,8 +11,8 @@ use App\Models\SubCategory;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-// use Image;
-use Intervention\Image\Facades\Image;
+use Image;
+// use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
@@ -145,7 +145,7 @@ class ProductController extends Controller
 
         // Fetch product images
 
-        $productImage = ProductImage::where('product_id',$product->id)->get();
+        $productImages = ProductImage::where('product_id',$product->id)->get();
         $subCategories = SubCategory::where('category_id',$product->category_id)->get();
 
         $data = [];        
@@ -155,7 +155,7 @@ class ProductController extends Controller
         $data['brands'] = $brands;
         $data['product'] = $product;
         $data['subCategories'] = $subCategories;
-        $data['productImage'] = $productImage;
+        $data['productImages'] = $productImages;
         
         return view('admin.products.edit',$data);
     }
@@ -198,6 +198,7 @@ class ProductController extends Controller
             $product->is_featured = $request->is_featured;
             $product->shipping_returns = $request->shipping_returns;
             $product->short_description = $request->short_description;
+            $product->related_products = (!empty($request->related_products)) ? implode(',',$request->related_products) : '';
             $product->save();
             
             //  Save Gallary Image

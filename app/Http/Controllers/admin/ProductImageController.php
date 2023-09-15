@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-// use image;
-use Intervention\Image\Facades\Image;
+use Image;
+// use Intervention\Image\Facades\Image;
 
 
 class ProductImageController extends Controller
@@ -57,7 +57,7 @@ class ProductImageController extends Controller
 
     }
 
-    public function destory( Request $request){
+    public function destroy( Request $request){
         $productImage = ProductImage::find($request->id);
 
         if(empty($productImage)){

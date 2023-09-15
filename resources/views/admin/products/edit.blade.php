@@ -73,17 +73,17 @@
                         </div>	                                                                      
                     </div>
                     <div class="row" id="product-gallery">
-                        @if ($productImage->isNotEmpty())
-                        @foreach ($productImage as $image)
-                            <div class="col-md-3" id="image-row-{{ $image->id }}">
-                                <div class="card">
-                                    <input type="hidden" name="image_array[]" value="{{ $image->id }}">
-                                    <img src="{{ asset('uploads/product/small/'.$image->image)}}" class="card-img-top" alt="">
-                                    <div class="card-body">
-                                        <a href="javascript:void(0)" onclick="deleteImage({{ $image->id }})" class="btn btn-danger">Delete</a>
-                                    </div>
+                        @if ($productImages->isNotEmpty())
+                        @foreach ($productImages as $image)
+                        <div class="col-md-3" id="image-row-{{ $image->id }}">
+                            <div class="card">
+                                <input type="hidden" name="image_array[]" value="{{ $image->id }}">
+                                <img src="{{ asset('uploads/product/small/'.$image->image) }}" class="card-img-top" alt="">
+                                <div class="card-body">
+                                    <a href="javascript:void(0)" onclick="deleteImage({{ $image->id }})" class="btn btn-danger">Delete</a>
                                 </div>
                             </div>
+                        </div>
                         @endforeach
                             
                         @endif
@@ -218,7 +218,7 @@
                         <div class="card-body">	
                             <h2 class="h4 mb-3">Related Products</h2>
                             <div class="mb-3">  
-                                <select multiple class="related-product w-100" name="related_products" id="related_products">
+                                <select multiple class="related-product w-100" name="related_products[]" id="related_products">
                                             
                                 </select>                              
                                 <p class="error"></p>
@@ -280,32 +280,27 @@
         $("#productForm").submit(function(event){
             event.preventDefault();
             var formArray = $(this).serializeArray();
+            $("button[type='submit']").prop('disabled',true);
+
             $.ajax({
-                url: '{{ route('products.update',$product->id) }}',
+                url: '{{ route("products.update",$product->id) }}',
                 type: 'put',
                 data: formArray,
                 dataType: 'json',
                 success: function(response){
                     $("button[type='submit']").prop('disabled',false);
+
                     if (response['status'] == true){
+                        $(".error").removeClass('invalid-feedback').html('');
+                        $("input[type='text'], select, input[type='number']").removeClass('is-invalid');
+
                         window.location.href="{{ route('products.index') }}";
                     } else {
                         var errors = response['errors'];
-                        // if (errors['title']){
-                        //     $("#title").addClass('is-invalid')
-                        //     .siblings('p')
-                        //     .addClass('invalid-feedback')
-                        //     .html(errors['title']);
-                        // } else {
-                        //     $("#title").removeClass('is-invalid')
-                        //     .siblings('p')
-                        //     .removeClass('invalid-feedback')
-                        //     .html(" ");
-                        // }
 
                         $(".error").removeClass('invalid-feedback').html('');
-                        $("input[type='text'],select, input[type='number']").removeClass('is-invalid');
-                        // $("input[type='number'],select").removeClass('is-invalid');
+                        $("input[type='text'], select, input[type='number']").removeClass('is-invalid');
+                        
                         $.each(errors,function(key,value){
                             $(`#${key}`).addClass('is-invalid')
                             .siblings('p')
@@ -347,15 +342,13 @@
             url:  "{{ route('product-images.update') }}",
             maxFiles: 10,
             paramName: 'image',
-            params: {'product_id': '{{ $product->id }}'}
+            params: {'product_id': '{{ $product->id }}'},
             addRemoveLinks: true,
             acceptedFiles: "image/jpeg,image/png,image/gif",
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }, 
             success: function(file, response){
-                // $("#image_id").val(response.image_id);
-                // console.log(response)
 
                 var html = `<div class="col-md-3" id="image-row-${response.image_id}"><div class="card">
                     <input type="hidden" name="image_array[]" value="${response.image_id}">
@@ -387,7 +380,7 @@
                         }
                     }
                 });
-            }
+            } 
         }
         
     </script>

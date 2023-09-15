@@ -5,8 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
-// use Image;
+// use Intervention\Image\Facades\Image;
+use Image;
 
 
 class TempImagesController extends Controller
@@ -24,7 +24,7 @@ class TempImagesController extends Controller
             $image->move(public_path().'/temp',$newName);
 
             // Generate Thumbnail Image
-            $sourcePath = public_path().'/temp/'.$newName;
+            $sourcePath = public_path().'/temp'.$newName;
             $destPath = public_path().'/temp/thumb/'.$newName;
             $image = Image::make($sourcePath);
             $image->fit(300,275);

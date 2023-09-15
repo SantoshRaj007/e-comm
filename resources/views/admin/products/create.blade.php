@@ -244,26 +244,15 @@
                 success: function(response){
                     if (response['status'] == true){
                         $(".error").removeClass('invalid-feedback').html('');
-                        $("input[type='text'],select, input[type='number']").removeClass('is-invalid');
+                        $("input[type='text'], select, input[type='number']").removeClass('is-invalid');
 
                         window.location.href="{{ route('products.index') }}";
                     } else {
                         var errors = response['errors'];
-                        // if (errors['title']){
-                        //     $("#title").addClass('is-invalid')
-                        //     .siblings('p')
-                        //     .addClass('invalid-feedback')
-                        //     .html(errors['title']);
-                        // } else {
-                        //     $("#title").removeClass('is-invalid')
-                        //     .siblings('p')
-                        //     .removeClass('invalid-feedback')
-                        //     .html(" ");
-                        // }
 
                         $(".error").removeClass('invalid-feedback').html('');
-                        $("input[type='text'],select, input[type='number']").removeClass('is-invalid');
-                        // $("input[type='number'],select").removeClass('is-invalid');
+                        $("input[type='text'], select, input[type='number']").removeClass('is-invalid');
+
                         $.each(errors,function(key,value){
                             $(`#${key}`).addClass('is-invalid')
                             .siblings('p')
@@ -288,7 +277,6 @@
                 data: {category_id:category_id},
                 dataType: 'json',
                 success: function(response){
-                    // console.log(response);
                     $("#sub_category").find("option").not(":first").remove();
                     $.each(response["subCategories"],function(key,item){
                         $("#sub_category").append(`<option value='${item.id}'>${item.name}</option>`);

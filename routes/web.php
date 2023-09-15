@@ -91,7 +91,7 @@ Route::group(['prefix' => 'admin'],function(){
         Route::get('/product-subcategories',[ProductSubCategoryController::class,'index'])->name('product-subcategories.index');
 
         Route::post('/product-images/update',[ProductImageController::class,'update'])->name('product-images.update');  
-        Route::post('/product-images',[ProductImageController::class,'destroy'])->name('product-images.destroy');  
+        Route::delete('/product-images',[ProductImageController::class,'destroy'])->name('product-images.destroy');  
 
 
 
