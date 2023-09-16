@@ -43,6 +43,8 @@
 
 	<!-- Fav Icon -->
 	<link rel="shortcut icon" type="image/x-icon" href="#" />
+
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body data-instant-intensity="mousedown">
 
@@ -106,7 +108,7 @@
       			</ul>      			
       		</div>   
 			<div class="right-nav py-0">
-				<a href="cart.php" class="ml-3 d-flex pt-2">
+				<a href="{{ route('front.cart') }}" class="ml-3 d-flex pt-2">
 					<i class="fas fa-shopping-cart text-primary"></i>					
 				</a>
 			</div> 		
@@ -188,6 +190,32 @@ function myFunction() {
     navbar.classList.remove("sticky");
   }
 }
+
+$.ajaxSetup({
+	headers:{
+		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	}
+});
+
+// Add to cart function
+
+function addToCart(id){
+            
+    $.ajax({
+        url: '{{ route("front.addToCart") }}',
+        type: 'post',
+        data: {id:id},
+        dataType: 'json',
+        success: function(response) {
+			if (response.status == true) {
+				window.location.href= "{{ route('front.cart') }}";
+			} else {
+				alert(response.message);
+			}
+    	}
+	});
+}
+
 </script>
 @yield('customJS')
 </body>

@@ -219,7 +219,11 @@
                             <h2 class="h4 mb-3">Related Products</h2>
                             <div class="mb-3">  
                                 <select multiple class="related-product w-100" name="related_products[]" id="related_products">
-                                            
+                                @if (!empty($relatedProducts))
+                                    @foreach ( $relatedProducts as $relProduct)
+                                        <option selected value="{{ $relProduct->id }}">{{ $relProduct->title }}</option>
+                                    @endforeach
+                                @endif       
                                 </select>                              
                                 <p class="error"></p>
                             </div>
