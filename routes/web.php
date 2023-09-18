@@ -1,19 +1,20 @@
 <?php
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\admin\AdminLoginController;
-use App\Http\Controllers\admin\BrandsController;
-use App\Http\Controllers\admin\HomeController;
-use App\Http\Controllers\admin\CategoryController;
-use App\Http\Controllers\admin\ProductController;
-use App\Http\Controllers\admin\ProductImageController;
-use App\Http\Controllers\admin\ProductSubCategoryController;
-use App\Http\Controllers\admin\SubCategoryController;
-use App\Http\Controllers\admin\TempImagesController;
-use App\Http\Controllers\FrontController;
-use App\Http\Controllers\ShopController;
-use App\Http\Controllers\CartController;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\FrontController;
+use App\Http\Controllers\admin\HomeController;
+use App\Http\Controllers\admin\BrandsController;
+use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\AdminLoginController;
+use App\Http\Controllers\admin\TempImagesController;
+use App\Http\Controllers\admin\SubCategoryController;
+use App\Http\Controllers\admin\ProductImageController;
+use App\Http\Controllers\admin\ProductSubCategoryController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -31,6 +32,14 @@ Route::get('/shop/{categorySlug?}/{subCategorySlug?}',[ShopController::class,'in
 Route::get('product/{slug}',[ShopController::class,'product'])->name('front.product');
 Route::get('/cart',[CartController::class,'cart'])->name('front.cart');
 Route::post('/add-to-cart',[CartController::class,'addToCart'])->name('front.addToCart');
+Route::post('/update-cart',[CartController::class,'updateCart'])->name('front.updateCart');
+Route::post('/delete-item',[CartController::class,'deleteItem'])->name('front.deleteItem.cart');
+
+
+// Register Route
+
+Route::get('/register',[AuthController::class,'register'])->name('account.register');
+Route::post('/process-register',[AuthController::class,'processRegister'])->name('account.processRegister');
 
 
 Route::group(['prefix' => 'admin'],function(){
