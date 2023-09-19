@@ -12,6 +12,15 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        return $request->expectsJson() ? null : route('login');
+        return $request->expectsJson() ? null : route('account.login');
+    }
+
+    protected function authenticate($request, array $guards)
+    {
+        if ($this->auth->guard('web')->check()) {
+            return $this->auth->shouldUse('web');
+        }
+
+        $this->unauthenticated($request, ['web']);
     }
 }
