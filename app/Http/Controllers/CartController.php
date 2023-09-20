@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Country;
 use App\Models\Product;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use App\Models\CustomerAddress;
+use Illuminate\Support\Facades\Auth;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
@@ -97,7 +103,7 @@ class CartController extends Controller
             Cart::update($rowId, $qty);
             $message = 'Cart update successfully';
             $status = true;
-            session()->flash('seccess',$message);
+            session()->flash('success',$message);
         }
 
         
@@ -129,6 +135,142 @@ class CartController extends Controller
             'status' => true,
             'message' => $message
         ]);
+    }
+
+    public function checkout(){
+
+        // if cart is empty redirect to cart page
+        if (Cart::count() == 0) {
+            return redirect()->route('front.cart');
+        }
+
+        // -- If user in not logged-in then redirect to login page
+
+        if (Auth::check() == false) {
+            if(!session()->has('url.intended')){
+                session(['url.intended' => url()->current()]);
+            }            
+            return redirect()->route('account.login');
+        }
+
+        session()->forget('url.intended');
+
+        $countries = Country::orderBy('name','ASC')->get();
+
+        return view('front.checkout',[
+            'countries' => $countries
+        ]);
+    }
+
+    public function processCheckout(Request $request) {
+
+        // step - 1 user Apply validation
+
+        $validator = Validator::make($request->all(),[
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email',
+            'country' => 'required',
+            // 'address' => 'required|min:30',
+            'address' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required',
+            'mobile' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Please fix the error',
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        // step - 2 save user address
+        
+        // $customerAddress = CustomerAddress::find();
+        $user = Auth::user();
+        CustomerAddress::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'user_id' => $user->id,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'mobile' => $request->mobile,
+                'country_id' => $request->country,
+                'address' => $request->address,
+                'apartment' => $request->apartment,
+                'city' => $request->city,
+                'state' => $request->state,
+                'zip' => $request->zip,
+            ]
+        );
+
+        // step - 3 store data in orders table
+
+        if ($request->payment_method == 'cod') {
+
+            $shipping = 0;
+            $discount = 0;
+            $subTotal = Cart::subtotal(2,'.','');
+            $grandTotal = $subTotal+$shipping;
+
+            $order = new Order;
+            $order->subtotal = $subTotal;
+            $order->shipping = $shipping;
+            $order->grand_total = $grandTotal;
+
+            $order->user_id = $user->id;
+            $order->first_name = $request->first_name;
+            $order->last_name = $request->last_name;
+            $order->email = $request->email;
+            $order->mobile = $request->mobile;
+            $order->address = $request->address;
+            $order->apartment = $request->apartment;
+            $order->state = $request->state;
+            $order->city = $request->city;
+            $order->zip = $request->zip;
+            $order->notes = $request->order_notes;
+            $order->country_id = $request->country;
+            $order->save();
+
+            // step - 4 store order item in order_item table
+
+            foreach (Cart::content() as $item) {
+                $orderItem = new OrderItem;
+                $orderItem->product_id = $item->id;
+                $orderItem->order_id = $order->id;
+                $orderItem->name = $item->name;
+                $orderItem->qty = $item->qty;
+                $orderItem->price = $item->price;
+                $orderItem->total = $item->price*$item->qty;
+                $orderItem->save();
+            }
+
+            session()->flash('success','You have successfully placed your order.');
+            
+            Cart::destroy();
+
+            return response()->json([
+                'message' => 'Order saved successfully',
+                'orderId' => $order->id,
+                'status' => true
+            ]);
+
+            
+
+        } else {
+            //
+        }
+
+        
+
+    }
+
+    public function thankyou(){
+        return view('front.thanks');
     }
 }
  
