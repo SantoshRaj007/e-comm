@@ -153,12 +153,15 @@ class CartController extends Controller
             return redirect()->route('account.login');
         }
 
+        $customerAddress = CustomerAddress::where('user_id',Auth::user()->id)->first();
+
         session()->forget('url.intended');
 
         $countries = Country::orderBy('name','ASC')->get();
 
         return view('front.checkout',[
-            'countries' => $countries
+            'countries' => $countries,
+            'customerAddress' => $customerAddress
         ]);
     }
 
@@ -269,8 +272,10 @@ class CartController extends Controller
 
     }
 
-    public function thankyou(){
-        return view('front.thanks');
+    public function thankyou($id){
+        return view('front.thanks',[
+            'id' => $id
+        ]);
     }
 }
  

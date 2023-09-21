@@ -131,9 +131,9 @@
                     type:'delete',
                     data: {},
                     dataType: 'json',
-                    // headers: {
-                    //     'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
-                    // }
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                    },
                     success: function(response){
                         if(response['status']){
 
