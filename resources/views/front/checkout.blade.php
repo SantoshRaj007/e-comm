@@ -5,8 +5,9 @@
     <div class="container">
         <div class="light-font">
             <ol class="breadcrumb primary-color mb-0">
-                <li class="breadcrumb-item"><a class="white-text" href="#">Home</a></li>
-                <li class="breadcrumb-item"><a class="white-text" href="#">Shop</a></li>
+                <li class="breadcrumb-item"><a class="white-text" href="{{ route('front.home') }}">Home</a></li>
+                <li class="breadcrumb-item"><a class="white-text" href="{{ route('front.shop') }}">Shop</a></li>
+                <li class="breadcrumb-item"><a class="white-text" href="{{ route('front.cart') }}">Cart</a></li>
                 <li class="breadcrumb-item">Checkout</li>
             </ol>
         </div>
@@ -120,7 +121,7 @@
                             @foreach (Cart::content() as $item)
                             <div class="d-flex justify-content-between pb-2">
                                 <div class="h6">{{ $item->name}} X {{ $item->qty }} </div>
-                                <div class="h6">${{ $item->price*$item->qty }}</div>
+                                <div class="h6">${{ $item->price*$item->qty }}.00</div>
                             </div>
                             @endforeach
                             
@@ -130,11 +131,11 @@
                             </div>
                             <div class="d-flex justify-content-between mt-2">
                                 <div class="h6"><strong>Shipping</strong></div>
-                                <div class="h6"><strong>$0</strong></div>
+                                <div class="h6"><strong id="shippingCharge">${{ number_format($totalShippingCharge,2) }}</strong></div>
                             </div>
                             <div class="d-flex justify-content-between mt-2 summery-end">
                                 <div class="h5"><strong>Total</strong></div>
-                                <div class="h5"><strong>${{ Cart::subtotal() }}</strong></div>
+                                <div class="h5"><strong id="grandTotal">${{ number_format($grandTotal,2) }}</strong></div>
                             </div>                            
                         </div>
                     </div>   
@@ -322,6 +323,21 @@
                         window.location.href="{{ url('/thanks/') }}/"+response.orderId;
                     }
                     
+                }
+            });
+        });
+
+        $("#country").change(function(){
+            $.ajax({
+                url: '{{ route("front.getOrderSummery") }}',
+                type: 'post',
+                data: {country_id: $(this).val()},
+                dataType: 'json',
+                success: function(response){
+                    if(response.status == true) {
+                        $("#shippingCharge").html('$'+response.shippingCharge);
+                        $("#grandTotal").html('$'+response.grandTotal);
+                    }
                 }
             });
         });

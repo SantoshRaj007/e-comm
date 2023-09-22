@@ -106,11 +106,11 @@
                             <div>Shipping</div>
                             <div>$20</div>
                         </div> --}}
-                        <div class="d-flex justify-content-between summery-end">
+                        {{-- <div class="d-flex justify-content-between summery-end">
                             <div>Total</div>
                             <div>${{ Cart::subtotal() }}</div>
-                        </div>
-                        <div class="pt-5">
+                        </div> --}}
+                        <div class="pt-3">
                             <a href="{{ route('front.checkout') }}" class="btn-dark btn btn-block w-100">Proceed to Checkout</a>
                         </div>
                     </div>

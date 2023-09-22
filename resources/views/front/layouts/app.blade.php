@@ -109,7 +109,7 @@
       		</div>   
 			<div class="right-nav py-0">
 				<a href="{{ route('front.cart') }}" class="ml-3 pt-2" style="margin:6px">
-					<i class="fas fa-shopping-cart text-primary"></i>					
+					<img src="{{ asset('front-assets/images/cart/cart.png')}}" alt="" style="width:20px">					
 				</a>
 				<a href="{{ route('account.profile') }}" class="ml-3  pt-2"><i class="fas fa-user text-primary"></i></a>
 			</div> 		
