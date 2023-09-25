@@ -59,6 +59,8 @@ Route::group(['prefix' => 'account'],function(){
 
     Route::group(['middleware' => 'auth'],function(){
         Route::get('/profile',[AuthController::class,'profile'])->name('account.profile');
+        Route::get('/my-orders',[AuthController::class,'orders'])->name('account.orders');
+        Route::get('/order-detail/{orderId}',[AuthController::class,'orderDetail'])->name('account.orderDetail');
         Route::get('/logout',[AuthController::class,'logout'])->name('account.logout');
     });
 
@@ -128,8 +130,8 @@ Route::group(['prefix' => 'admin'],function(){
         
         // Order Routes
 
-        Route::get('/order',[OrderController::class,'index'])->name('order.index');
-        // Route::get('/shipping/create',[ShippingController::class,'create'])->name('shipping.create');
+        Route::get('/orders',[OrderController::class,'index'])->name('orders.index');
+        Route::get('/orders/{id}',[OrderController::class,'detail'])->name('orders.detail');
         // Route::post('/shipping',[ShippingController::class,'store'])->name('shipping.store');
         // Route::get('/shipping/{id}/edit',[ShippingController::class,'edit'])->name('shipping.edit');
         // Route::put('/shipping/{id}',[ShippingController::class,'update'])->name('shipping.update');

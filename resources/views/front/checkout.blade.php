@@ -151,7 +151,7 @@
                         <button class="btn btn-dark" type="button" id="apply-discount">Apply Coupon</button>
                     </div> 
 
-                    <div id="discount-response-wrapper">
+                    <div id="discount-response-wrapper" class="mt-3">
                         @if (Session::has('code'))
                         <div class="mt-4" id="discount-response">
                             <strong>{{ Session::get('code')->code }}</strong>
@@ -160,7 +160,7 @@
                         @endif
                     </div>
                     
-                    <div class="card payment-form ">   
+                    <div class="card payment-form">
                         <h3 class="card-title h5 mb-3">Payment Method</h3>
                         <div class="">
                             <input checked type="radio" name="payment_method" value="cod" id="payment_method_one">
@@ -374,6 +374,8 @@
                         $("#grandTotal").html('$'+response.grandTotal);
                         $("#discount_value").html('$'+response.discount);        
                         $("#discount-response-wrapper").html(response.discountString); 
+                    } else {
+                        $("#discount-response-wrapper").html("<span style='color:#C70039'>"+response.message+"</span>");
                     }
                 }
             });

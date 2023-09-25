@@ -1,5 +1,7 @@
 <?php
     use App\Models\Category;
+use App\Models\ProductImage;
+
     function getcategories() {
         return Category::orderBy('name','ASC')
         ->with('sub_category')
@@ -9,4 +11,7 @@
         ->get();
     }
 
+    function getProductImage($productId){
+        return ProductImage::where('product_id',$productId)->first();
+    }
 ?>

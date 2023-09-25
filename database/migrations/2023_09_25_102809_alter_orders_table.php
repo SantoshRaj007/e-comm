@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders',function(Blueprint $table){
-            $table->string('coupon_code_id')->constrained()->onDelete('cascade')->after('coupon_code');
+            $table->integer('coupon_code_id')->constrained()->onDelete('cascade')->after('coupon_code');
         });
     }
 

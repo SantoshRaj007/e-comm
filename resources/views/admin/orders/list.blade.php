@@ -21,7 +21,7 @@
             <form action="" method="get">
                 <div class="card-header"> 
                     <div class="card-title">
-                        <button type="button" onclick="window.location.href='{{ route('order.index')}}'" class="btn btn-outline-success btn-sm">Reset</button>
+                        <button type="button" onclick="window.location.href='{{ route('orders.index')}}'" class="btn btn-outline-success btn-sm">Reset</button>
                     </div>               
                     <div class="card-tools">
                         <div class="input-group input-group" style="width: 250px;">
@@ -45,7 +45,7 @@
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Status</th>
-                            <th>Total</th>
+                            <th>Amount</th>
                             <th>Date Purchased</th>
                         </tr>
                     </thead>
@@ -53,15 +53,21 @@
                         @if ($orders->isNotEmpty())
                         @foreach ($orders as $key => $order )
                             <tr>
-                                <td><a href="#">{{ $order->id }}</a></td>
-                                <td>{{ $order->first_name}} {{ $order->last_name}}</td>
+                                <td><a href="{{ route('orders.detail',[$order->id]) }}">{{ $order->id }}</a></td>
+                                <td>{{ $order->name }}</td>
                                 <td>{{ $order->email}}</td>
                                 <td>{{ $order->mobile}}</td>
                                 <td>
-                                    <span class="badge bg-success">Delivered</span>
+                                    @if ($order->status == 'pending')
+                                        <span class="badge bg-danger">Pending</span>
+                                    @elseif ($order->status == 'shipped')
+                                        <span class="badge bg-info">Shipped</span>
+                                    @else
+                                        <span class="badge bg-success">Deliverd</span>
+                                    @endif
                                 </td>
-                                <td>${{ $order->grand_total}}</td>
-                                <td>{{ ($order->created_at)->format('Y/m/d H:i:s')}}</td>																				
+                                <td>${{ number_format($order->grand_total,2)}}</td>
+                                <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M, Y')}}</td>																				
                             </tr>
                         @endforeach
                         @else  

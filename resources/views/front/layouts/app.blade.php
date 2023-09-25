@@ -65,8 +65,11 @@
 					  	</span>
 					</div>
 				</form>
+				@if (Auth::check())
 				<a href="{{ route('account.profile') }}" class="nav-link text-dark">My Account</a>
-				{{-- {{ Auth::guard()->user()->name }} --}}
+				@else
+				<a href="{{ route('account.login') }}" class="nav-link text-dark">Login/Register</a>
+				@endif
 			</div>		
 		</div>
 	</div>
