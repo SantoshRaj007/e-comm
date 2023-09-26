@@ -19,8 +19,8 @@ use App\Http\Controllers\admin\SubCategoryController;
 use App\Http\Controllers\admin\ProductImageController;
 use App\Http\Controllers\admin\ProductSubCategoryController;
 
-// Route::get('/', function () {
-//     return view('welcome');
+// Route::get('/test', function () {
+//     orderEmail(18);
 // });
 
 
@@ -132,10 +132,8 @@ Route::group(['prefix' => 'admin'],function(){
 
         Route::get('/orders',[OrderController::class,'index'])->name('orders.index');
         Route::get('/orders/{id}',[OrderController::class,'detail'])->name('orders.detail');
-        // Route::post('/shipping',[ShippingController::class,'store'])->name('shipping.store');
-        // Route::get('/shipping/{id}/edit',[ShippingController::class,'edit'])->name('shipping.edit');
-        // Route::put('/shipping/{id}',[ShippingController::class,'update'])->name('shipping.update');
-        // Route::delete('/shipping/{id}',[ShippingController::class,'destroy'])->name('shipping.delete');
+        Route::post('/order/change-status/{id}',[OrderController::class,'changeOrderStatus'])->name('orders.changeOrderStatus');
+        Route::post('/order/send-email/{id}',[OrderController::class,'sendInvoiceEmail'])->name('orders.sendInvoiceEmail');
 
         // Discount Coupon Route
 

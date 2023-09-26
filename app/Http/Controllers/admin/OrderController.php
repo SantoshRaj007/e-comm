@@ -37,4 +37,33 @@ class OrderController extends Controller
             'orderItems' => $orderItems
         ]);
     }
+
+    public function changeOrderStatus(Request $request, $orderId){
+
+        $order = Order::find($orderId);
+        $order->status = $request->status;
+        $order->shipped_date = $request->shipped_date;
+        $order->save();
+
+        $message = 'Order status updated successfully';
+        session()->flash('success',$message);
+
+        return response()->json([
+            'status' => true,
+            'message' => $message
+        ]);
+    }
+
+    public function sendInvoiceEmail(Request $request, $orderId){
+        orderEmail($orderId, $request->userType);
+
+        $message = 'Order email send successfully';
+
+        session()->flash('success',$message);
+
+        return response()->json([
+            'status' => true,
+            'message' => $message
+        ]);
+    }
 }
