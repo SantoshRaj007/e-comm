@@ -183,7 +183,7 @@
         $("#sendInvoiceEmail").submit(function(event){
             event.preventDefault();
             
-            if(confirm("Are you sure you want to send email. !!!")){
+            if(confirm("Are you sure you want to send email. !!!")){  
                 $.ajax({
                     url: '{{ route("orders.sendInvoiceEmail",$order->id) }}',
                     type: 'post',

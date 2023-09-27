@@ -174,6 +174,28 @@
 		</div>
 	</div>
 </footer>
+
+  
+  <!-- Wishlist Modal -->
+  <div class="modal fade" id="wishlistModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">Success</h5>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+		  
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+
+
 <script src="{{ asset('front-assets/js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/bootstrap.bundle.5.1.3.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/instantpages.5.1.0.min.js') }}"></script>
@@ -215,6 +237,24 @@ function addToCart(id){
 				window.location.href= "{{ route('front.cart') }}";
 			} else {
 				alert(response.message);
+			}
+    	}
+	});
+}
+
+function addToWishList(id) {
+	$.ajax({
+        url: '{{ route("front.addToWishlist") }}',
+        type: 'post',
+        data: {id:id},
+        dataType: 'json',
+        success: function(response) {
+			if (response.status == true) {
+				$("#wishlistModal .modal-body").html(response.message);
+				$("#wishlistModal").modal('show');
+			} else {
+				// alert(response.message);
+				window.location.href= "{{ route('account.login') }}";
 			}
     	}
 	});
