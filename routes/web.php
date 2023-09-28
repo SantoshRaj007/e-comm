@@ -18,6 +18,7 @@ use App\Http\Controllers\admin\TempImagesController;
 use App\Http\Controllers\admin\SubCategoryController;
 use App\Http\Controllers\admin\ProductImageController;
 use App\Http\Controllers\admin\ProductSubCategoryController;
+use App\Http\Controllers\admin\UserController;
 
 // Route::get('/test', function () {
 //     orderEmail(18);
@@ -60,6 +61,8 @@ Route::group(['prefix' => 'account'],function(){
 
     Route::group(['middleware' => 'auth'],function(){
         Route::get('/profile',[AuthController::class,'profile'])->name('account.profile');
+        Route::post('/update-profile',[AuthController::class,'updateProfile'])->name('account.updateProfile');
+        Route::post('/update-address',[AuthController::class,'updateAddress'])->name('account.updateAddress');
         Route::get('/my-orders',[AuthController::class,'orders'])->name('account.orders');
         Route::get('/my-wishlists',[AuthController::class,'wishlist'])->name('account.wishlist');
         Route::post('/remove-product-from-wishlist',[AuthController::class,'removeProductFromWishList'])->name('account.removeProductFromWishList');
@@ -146,6 +149,15 @@ Route::group(['prefix' => 'admin'],function(){
         Route::get('/coupons/{coupon}/edit',[DiscountCodeController::class,'edit'])->name('coupons.edit');
         Route::put('/coupons/{coupon}',[DiscountCodeController::class,'update'])->name('coupons.update'); 
         Route::delete('/coupons/{coupon}',[DiscountCodeController::class,'destroy'])->name('coupons.delete');
+
+        // User Route
+
+        Route::get('/users',[UserController::class,'index'])->name('users.index');
+        Route::get('/users/create',[UserController::class,'create'])->name('users.create');
+        Route::post('/users',[UserController::class,'store'])->name('users.store');     
+        Route::get('/users/{user}/edit',[UserController::class,'edit'])->name('users.edit');   
+        Route::put('/users/{user}',[UserController::class,'update'])->name('users.update'); 
+        Route::delete('/users/{user}',[UserController::class,'destroy'])->name('users.delete');
 
 
         // temp-images.create
