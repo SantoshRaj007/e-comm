@@ -11,15 +11,15 @@ use Illuminate\Support\Facades\Validator;
 class ShippingController extends Controller
 {
     
-    public function index(Request $request){
-        $shippingCharges = ShippingCharge::select('shipping_charges.*','countries.name as countryName')
-        ->orderBy('id')
-        ->leftJoin('countries','countries.id','shipping_charges.country_id');
+    // public function index(Request $request){
+    //     $shippingCharges = ShippingCharge::select('shipping_charges.*','countries.name as countryName')
+    //     ->orderBy('id')
+    //     ->leftJoin('countries','countries.id','shipping_charges.country_id');
         
-        $shippingCharges = $shippingCharges->paginate(10);
+    //     $shippingCharges = $shippingCharges->paginate(10);
         
-        return view('admin.shipping.shipping',compact('shippingCharges'));
-    }
+    //     return view('admin.shipping.shipping',compact('shippingCharges'));
+    // }
 
     public function create() {
         $countries = Country::get();

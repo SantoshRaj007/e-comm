@@ -92,19 +92,19 @@
             var element = $(this);
             $("button[type=submit]").prop('disabled',true);
             $.ajax({
-                url:'{{ route('categories.store') }}',
+                url:'{{ route("categories.store") }}',
                 type:'post',
                 data: element.serializeArray(),
                 dataType: 'json',
                 success: function(response){
                     $("button[type=submit]").prop('disabled',false);
-                    if(response['status'] == true){
-
-                        window.location.href="{{ route('categories.index') }}";
+                    if(response['status'] == true){                       
 
                         $("#name").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("");
 
                         $("#slug").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html(" ");
+
+                        window.location.href="{{ route('categories.index') }}";
                     } else {
                         var errors = response['errors'];
                         if(errors['name']){

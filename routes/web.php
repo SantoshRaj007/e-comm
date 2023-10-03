@@ -19,6 +19,7 @@ use App\Http\Controllers\admin\TempImagesController;
 use App\Http\Controllers\admin\SubCategoryController;
 use App\Http\Controllers\admin\ProductImageController;
 use App\Http\Controllers\admin\ProductSubCategoryController;
+use App\Http\Controllers\admin\SettingController;
 use App\Http\Controllers\admin\UserController;
 
 // Route::get('/test', function () {
@@ -132,7 +133,7 @@ Route::group(['prefix' => 'admin'],function(){
 
         // Shipping Routes
 
-        Route::get('/shipping',[ShippingController::class,'index'])->name('shipping.index');
+        // Route::get('/shipping',[ShippingController::class,'index'])->name('shipping.index');
         Route::get('/shipping/create',[ShippingController::class,'create'])->name('shipping.create');
         Route::post('/shipping',[ShippingController::class,'store'])->name('shipping.store');
         Route::get('/shipping/{id}/edit',[ShippingController::class,'edit'])->name('shipping.edit');
@@ -174,9 +175,16 @@ Route::group(['prefix' => 'admin'],function(){
         Route::delete('/pages/{page}',[PageController::class,'destroy'])->name('pages.delete');
 
 
-        // temp-images.create
+        // temp-images.create 
         Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-images.create');  
 
+        // Setting Routes 
+
+        Route::get('/change-password',[SettingController::class,'showChangePasswordForm'])->name('admin.showChangePasswordForm'); 
+
+        // Process Change Password Route
+
+        Route::post('/process-change-password',[SettingController::class,'processChangePassword'])->name('admin.processChangePassword'); 
         
         Route::get('/getSlug',function(Request $request){
             $slug = '';

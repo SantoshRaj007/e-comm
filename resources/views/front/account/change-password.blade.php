@@ -69,7 +69,7 @@
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == true) {
-                        window.location.href = '{{ route("account.changePassword") }}';
+                        window.location.href = "{{ route('admin.showChangePasswordForm') }}";
                     } else {
                         var errors = response.errors;
                         $("button[type=submit]").prop('disabled',false);

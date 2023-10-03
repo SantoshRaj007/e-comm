@@ -96,7 +96,7 @@
             var element = $(this);
             $("button[type=submit]").prop('disabled',true);
             $.ajax({
-                url:'{{ route('categories.update',$category->id) }}',
+                url:'{{ route("categories.update",$category->id) }}',
                 type:'put',
                 data: element.serializeArray(),
                 dataType: 'json',
