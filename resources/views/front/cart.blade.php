@@ -25,7 +25,7 @@
                 </div>
             @endif
 
-            @if (Session::has('error'))   
+            @if (Session::has('errors'))   
                 <div class="col-md-12">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         {{ Session::get('error') }}
