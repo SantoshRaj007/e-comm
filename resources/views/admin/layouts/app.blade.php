@@ -35,9 +35,9 @@
 					</li>					
 				</ul>
 				<div class="navbar-nav pl-2">
-					<!-- <ol class="breadcrumb p-0 m-0 bg-white">
+					<ol class="breadcrumb p-0 m-0 bg-white">
 						<li class="breadcrumb-item active">Dashboard</li>
-					</ol> -->
+					</ol>
 				</div>
 				
 				<ul class="navbar-nav ml-auto">
@@ -55,7 +55,7 @@
 							<h4 class="h4 mb-0"><strong>{{ Auth::guard()->user()->name }}</strong></h4>
 							<div class="mb-3">{{ Auth::guard()->user()->email }}</div>
 							<div class="dropdown-divider"></div>
-							<a href="#" class="dropdown-item">
+							<a href="javascript:void(0);" class="dropdown-item">
 								<i class="fas fa-user-cog mr-2"></i> Settings								
 							</a>
 							<div class="dropdown-divider"></div>
