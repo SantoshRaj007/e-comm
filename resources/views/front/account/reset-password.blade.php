@@ -16,8 +16,9 @@
         <div class="container">
             
             <div class="login-form">    
-                <form action="{{ route('front.processForgotPassword') }}" method="post">
+                <form action="{{ route('front.processResetPassword') }}" method="post">
                     @csrf
+                    <input type="hidden" name="token" value="{{ $token }}">
                     <h4 class="modal-title">Reset Password</h4>
                     @if (Session::has('success'))
                         <div class="alert alert-success">
@@ -31,12 +32,18 @@
                         </div>
                     @endif
                     <div class="form-group">
-                        <input type="text" class="form-control @error('email') is-invalid @enderror" placeholder="Email" name="email" value="{{ old('email')}}">
-                        @error('email')
+                        <input type="password" class="form-control @error('new_password') is-invalid @enderror" placeholder="New Password" name="new_password" value="">
+                        @error('new_password')
                             <p class="invalid-feedback">{{ $message }}</p>
                         @enderror
                     </div>
-                    <input type="submit" class="btn btn-dark btn-block btn-lg" value="Submit">              
+                    <div class="form-group">
+                        <input type="password" class="form-control @error('confirm_password') is-invalid @enderror" placeholder="Confirm Password" name="confirm_password" value="">
+                        @error('confirm_password')
+                            <p class="invalid-feedback">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <input type="submit" class="btn btn-dark btn-block btn-lg" value="Update Password">              
                 </form>			
                 <div class="text-center small"><a href="{{ route('account.login') }}">Login</a></div>
             </div>

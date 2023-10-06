@@ -155,7 +155,7 @@
                                     @if ($mailData['userType'] == 'customer')
                                     <p style="color: #777777;">Payment Is Successfully Processsed And Your Order Is On
                                         The Way</p>
-                                    <p style="color: #777777; letter-spacing: 0.5px;">Transaction ID:{{ $mailData['order']->id }}
+                                    <p style="color: #777777; letter-spacing: 0.5px;">Transaction ID:{{ $mailData['order']->id }} : Order Status:{{ $mailData['order']->status }}
                                     </p>
                                     @else
                                     <p style="color: #777777;">You have received an order</p>

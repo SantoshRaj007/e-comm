@@ -49,9 +49,11 @@ Route::post('/remove-discount',[CartController::class,'removeCoupon'])->name('fr
 Route::post('/add-to-wishlist',[FrontController::class,'addToWishlist'])->name('front.addToWishlist');
 Route::get('/page/{slug}',[FrontController::class,'page'])->name('front.page');
 Route::post('/send-contact-email',[FrontController::class,'sendContactEmail'])->name('front.sendContactEmail');
+
 Route::get('/forgot-password',[AuthController::class,'forgotPassword'])->name('front.forgotPassword');
 Route::post('/process-forgot-password',[AuthController::class,'processForgotPassword'])->name('front.processForgotPassword');
 Route::get('/reset-password/{token}',[AuthController::class,'resetPassword'])->name('front.resetPassword');
+Route::post('/process-reset-password',[AuthController::class,'processResetPassword'])->name('front.processResetPassword');
 
 
 
@@ -87,6 +89,12 @@ Route::group(['prefix' => 'admin'],function(){
     Route::group(['middleware' => 'admin.guest'],function(){
         Route::get('/login',[AdminLoginController::class,'index'])->name('admin.login');
         Route::post('/authenticate',[AdminLoginController::class,'authenticate'])->name('admin.authenticate');
+        
+        Route::get('/forgot-password',[AdminLoginController::class,'forgotPassword'])->name('admin.forgotPassword');
+        Route::post('/process-forgot-password',[AdminLoginController::class,'processForgotPassword'])->name('admin.processForgotPassword');
+        Route::get('/reset-password/{token}',[AdminLoginController::class,'resetPassword'])->name('admin.resetPassword');
+        Route::post('/process-reset-password',[AdminLoginController::class,'processResetPassword'])->name('admin.processResetPassword');
+
     });
 
     Route::group(['middleware' => 'admin.auth'],function(){

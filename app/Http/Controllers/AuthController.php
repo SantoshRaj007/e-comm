@@ -327,7 +327,44 @@ class AuthController extends Controller
         
     }
 
-    public function resetPassword() {
-        return view('front.account.reset-password');
+    public function resetPassword($token) {
+
+        $tokenExist = DB::table('password_reset_tokens')->where('token',$token)->first();
+        if($tokenExist == null){
+            return redirect()->route('front.forgotPassword')->with('error','Link Expired');
+        }
+
+        return view('front.account.reset-password',[
+            'token' => $token
+        ]);
+    }
+
+    public function processResetPassword(Request $request) {
+        $token = $request->token;
+
+        $tokenExist = DB::table('password_reset_tokens')->where('token',$token)->first();
+
+        if($tokenExist == null){
+            return redirect()->route('front.forgotPassword')->with('error','Invalid request');
+        }
+
+        $user = User::where('email',$tokenExist->email)->first();
+
+        $validator = Validator::make($request->all(),[
+            'new_password' => 'required|min:5',
+            'confirm_password' => 'required|same:new_password'
+        ]);
+
+        if($validator->fails()){
+            return redirect()->route('front.resetPassword',$token)->withErrors($validator);
+        }
+
+        User::where('id',$user->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        DB::table('password_reset_tokens')->where('email',$user->email)->delete();
+
+        return redirect()->route('account.login')->with('success','You have successfully update your password');
     }
 }
