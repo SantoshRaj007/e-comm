@@ -54,7 +54,7 @@
                         @foreach ($pages as $page)
                         <tr>
                             <td>{{ $page->id }}</td>
-                            <td>{{ $page->name }}</td>
+                            <td><a href="{{ route('pages.edit',$page->id) }}">{{ $page->name }}</a></td>
                             <td>{{ $page->slug }}</td>
                             <td>
                                 @if ($page->status == 1)

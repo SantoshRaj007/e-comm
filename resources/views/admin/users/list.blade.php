@@ -42,7 +42,7 @@
                 <table class="table table-hover text-nowrap">
                     <thead>
                         <tr>
-                            <th width="60">ID</th>
+                            <th width="60">User ID</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone</th>
@@ -52,9 +52,9 @@
                     </thead>
                     <tbody>
                         @if ($users->isNotEmpty())
-                            @foreach ($users as $user)
+                            @foreach ($users as $key => $user)
                             <tr>
-                                <td>{{ $user->id }}</td>
+                                <td><a href="{{ route('users.edit',$user->id) }}">{{ $user->id }}</a></td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->phone }}</td>

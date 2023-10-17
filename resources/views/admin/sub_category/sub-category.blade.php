@@ -56,10 +56,10 @@
                         @if ($subCategory->isNotEmpty())
                         @foreach ($subCategory as $key => $subCategories )
                         <tr>
-                            <td>{{ $key+1}}</td>
-                            <td>{{ $subCategories->name}}</td>
-                            <td>{{ $subCategories->slug}}</td>
-                            <td>{{ $subCategories->categoryName}}</td>
+                            <td>{{ $key+1 }}</td>
+                            <td><a href="{{ route('sub-categories.edit',$subCategories->id) }}">{{ $subCategories->name }}</a></td>
+                            <td>{{ $subCategories->slug }}</td>
+                            <td>{{ $subCategories->categoryName }}</td>
                             <td>
                                 @if ($subCategories->showHome == 'Yes')
                                 <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">

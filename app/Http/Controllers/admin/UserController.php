@@ -14,7 +14,8 @@ class UserController extends Controller
     // List Data code
 
     public function index(Request $request) {
-        $users = User::latest();
+        // $users = User::latest(); // for all user including admin 
+        $users = User::where('role',1);
         if(!empty($request->get('keyword'))){
             $users = $users->where('name','like','%'.$request->get('keyword').'%');
             $users = $users->orWhere('email','like','%'.$request->get('keyword').'%');

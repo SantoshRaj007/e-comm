@@ -55,7 +55,7 @@
                         @foreach ($brands as $key => $brand )
                         <tr>
                             <td>{{ $key+1}}</td>
-                            <td>{{ $brand->name}}</td>
+                            <td><a href="{{ route('brands.edit',$brand->id) }}">{{ $brand->name }}</a></td>
                             <td>{{ $brand->slug}}</td>
                             <td>
                                 @if ($brand->status == 1)

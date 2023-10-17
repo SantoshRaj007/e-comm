@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Validator;
 class PageController extends Controller
 {
     public function index(Request $request) {
-        $pages = Page::latest();
+        // $pages = Page::latest();
+        $pages = Page::orderBy('id');
         if(!empty($request->get('keyword'))){
             $pages = $pages->where('name','like','%'.$request->get('keyword').'%');
         }

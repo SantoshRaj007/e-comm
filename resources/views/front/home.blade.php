@@ -6,7 +6,6 @@
     <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="false">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <!-- <img src="images/carousel-1.jpg" class="d-block w-100" alt=""> -->
 
                 <picture>
                     <source media="(max-width: 799px)" srcset="{{ asset('front-assets/images/carousel-1-m.jpg') }}" />

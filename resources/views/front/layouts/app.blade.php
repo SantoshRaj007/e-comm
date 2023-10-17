@@ -87,9 +87,6 @@
     		</button>
     		<div class="collapse navbar-collapse" id="navbarSupportedContent">
       			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        			<!-- <li class="nav-item">
-          				<a class="nav-link active" aria-current="page" href="index.php" title="Products">Home</a>
-        			</li> -->
                     @if (getcategories()->isNotEmpty()) 
                     @foreach (getcategories() as $category)
                     <li class="nav-item dropdown">
@@ -146,11 +143,6 @@
 							<li><a href="{{ route('front.page',$page->slug) }}" title="{{ $page->name }}">{{ $page->name }}</a></li>	
 							@endforeach
 						@endif
-						{{-- <li><a href="about-us.php" title="About">About</a></li>
-						<li><a href="contact-us.php" title="Contact Us">Contact Us</a></li>						
-						<li><a href="#" title="Privacy">Privacy</a></li>
-						<li><a href="#" title="Privacy">Terms & Conditions</a></li>
-						<li><a href="#" title="Privacy">Refund Policy</a></li> --}}
 					</ul>
 				</div>
 			</div>
