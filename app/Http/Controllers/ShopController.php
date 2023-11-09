@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductRating;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+use function PHPUnit\Framework\assertNotTrue;
 
 class ShopController extends Controller
 {
@@ -84,13 +88,18 @@ class ShopController extends Controller
 
     public function product($slug) {
 
-        $product = Product::where('slug',$slug)->with('product_images')->first();
+        $product = Product::where('slug',$slug)
+        ->withCount('product_ratings')
+        ->withSum('product_ratings','rating')
+        ->with('product_images','product_ratings')->first();        
+        // dd($product);
         if ($product == null) {
             abort(404);
         }
 
-        // Fetch related products
+        
         $relatedProducts = [];
+        // Fetch related products
         if ($product->related_products != '') {
             $productArray = explode(',',$product->related_products);
             $relatedProducts = Product::whereIn('id',$productArray)->get();
@@ -98,8 +107,150 @@ class ShopController extends Controller
 
         $data['product'] = $product;
         $data['relatedProducts'] =$relatedProducts;
+
+        // Rating Calculation
+        //"product_ratings_count" => 1
+        //"product_ratings_sum_rating" => 5.0
+
+        $avgRating = '0.00';
+        $avgRatingPer = '0';
+        if($product->product_ratings_count > 0) {
+            $avgRating = number_format(($product->product_ratings_sum_rating/$product->product_ratings_count),2);
+            $avgRatingPer = ($avgRating*100)/5;
+        }
+        
+        $data['avgRating'] = $avgRating;
+        $data['avgRatingPer'] = $avgRatingPer;
         
         return view('front.product',$data);
 
+    }
+
+    public function saveRating($id,Request $request){
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+            'email' => 'required|email',
+            'rating' => 'required',
+            'comment' => 'required',            
+        ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        $count = ProductRating::where('email',$request->email)->count();
+        if($count > 0) {
+            session()->flash('error','You already rated this product..');
+            return response()->json([
+                'status' => true,
+            ]);
+        }
+
+        $productRating = new ProductRating;
+        $productRating->product_id = $id;
+        $productRating->username = $request->name;
+        $productRating->email = $request->email;
+        $productRating->comment = $request->comment;
+        $productRating->rating = $request->rating;
+        $productRating->status = 0;
+        $productRating->save();
+
+        session()->flash('success','Thanks for your rating...');
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Thanks for your rating...'
+        ]);
+
+    }
+
+    public function list(Request $request) {
+        $ratings = ProductRating::orderBy('id');
+        if(!empty($request->get('keyword'))){
+            $ratings = $ratings->where('username','like','%'.$request->get('keyword').'%');
+        }
+        $ratings = $ratings->paginate(10);
+        return view('admin.ratings.list',[
+            'ratings' => $ratings
+        ]);
+    }
+
+    public function edit($id) {
+        $ratings = ProductRating::find($id);
+
+        if($ratings == null){
+            $message = 'Page not found';
+            session()->flash('error',$message);
+            return redirect()->route('rating.index');
+        }
+
+        return view('admin.ratings.edit',[
+            'ratings' => $ratings
+        ]);
+    }
+
+    public function update(Request $request, $id){
+        $ratings = ProductRating::find($id);
+        
+        if($ratings == null){
+            $message = 'Page not found';
+            session()->flash('error',$message);
+            
+            return response()->json([
+                'status' => true,
+                'message' => $message
+            ]);
+        }
+
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+        ]);
+
+        if ($validator->passes()) {
+               
+            $ratings->username = $request->name;
+            $ratings->status = $request->status;
+            $ratings->save();   
+            
+            $message = 'Rating updated successfully';
+            session()->flash('success',$message);
+
+            return response()->json([
+                'status' => true,
+                'message' => $message
+            ]);
+
+        } else {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
+    }
+
+    public function destroy($id){
+        $ratings = ProductRating::find($id);
+
+        if($ratings == null){
+            $message = 'Page not found';
+            session()->flash('error',$message);
+            
+            return response()->json([
+                'status' => true,
+                'message' => $message
+            ]);
+        }
+
+        $ratings->delete();
+
+        $message = 'Rating deleted successfully';
+        session()->flash('success',$message);
+        return response()->json([
+            'status' => true,
+            'message' => $message
+        ]);
     }
 }
