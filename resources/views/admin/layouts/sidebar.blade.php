@@ -45,6 +45,13 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ route('products.productRatings')}}" class="nav-link {{ Route::is('products.productRatings') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-star"></i>
+                        <p>Rating</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ route('rating.index')}}" class="nav-link {{ Route::is('rating.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tag"></i>
                         <p>Product Rating</p>
