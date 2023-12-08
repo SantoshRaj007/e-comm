@@ -121,27 +121,27 @@
                             @foreach (Cart::content() as $item)
                             <div class="d-flex justify-content-between pb-2">
                                 <div class="h6">{{ $item->name}} X {{ $item->qty }} </div>
-                                <div class="h6">${{ $item->price*$item->qty }}.00</div>
+                                <div class="h6">₹{{ $item->price*$item->qty }}.00</div>
                             </div>
                             @endforeach
                             
                             <div class="d-flex justify-content-between summery-end">
                                 <div class="h6"><strong>Subtotal</strong></div>
-                                <div class="h6"><strong>${{ Cart::subtotal() }}</strong></div>
+                                <div class="h6"><strong>₹{{ Cart::subtotal() }}</strong></div>
                             </div>
 
                             <div class="d-flex justify-content-between summery-end">
                                 <div class="h6"><strong>Discount</strong></div>
-                                <div class="h6"><strong id="discount_value">${{ $discount }}</strong></div>
+                                <div class="h6"><strong id="discount_value">₹{{ $discount }}</strong></div>
                             </div>
 
                             <div class="d-flex justify-content-between mt-2">
                                 <div class="h6"><strong>Shipping</strong></div>
-                                <div class="h6"><strong id="shippingCharge">${{ number_format($totalShippingCharge,2) }}</strong></div>
+                                <div class="h6"><strong id="shippingCharge">₹{{ number_format($totalShippingCharge,2) }}</strong></div>
                             </div>
                             <div class="d-flex justify-content-between mt-2 summery-end">
                                 <div class="h5"><strong>Total</strong></div>
-                                <div class="h5"><strong id="grandTotal">${{ number_format($grandTotal,2) }}</strong></div>
+                                <div class="h5"><strong id="grandTotal">₹{{ number_format($grandTotal,2) }}</strong></div>
                             </div>                            
                         </div>
                     </div>  
@@ -355,8 +355,8 @@
                 dataType: 'json',
                 success: function(response){
                     if(response.status == true) {
-                        $("#shippingCharge").html('$'+response.shippingCharge);
-                        $("#grandTotal").html('$'+response.grandTotal);
+                        $("#shippingCharge").html('₹'+response.shippingCharge);
+                        $("#grandTotal").html('₹'+response.grandTotal);
                     }
                 }
             });
@@ -370,9 +370,9 @@
                 dataType: 'json',
                 success: function(response){
                     if(response.status == true) {
-                        $("#shippingCharge").html('$'+response.shippingCharge);
-                        $("#grandTotal").html('$'+response.grandTotal);
-                        $("#discount_value").html('$'+response.discount);        
+                        $("#shippingCharge").html('₹'+response.shippingCharge);
+                        $("#grandTotal").html('₹'+response.grandTotal);
+                        $("#discount_value").html('₹'+response.discount);        
                         $("#discount-response-wrapper").html(response.discountString); 
                     } else {
                         $("#discount-response-wrapper").html("<span style='color:#C70039'>"+response.message+"</span>");
@@ -389,9 +389,9 @@
                 dataType: 'json',
                 success: function(response){
                     if(response.status == true) {
-                        $("#shippingCharge").html('$'+response.shippingCharge);
-                        $("#grandTotal").html('$'+response.grandTotal);
-                        $("#discount_value").html('$'+response.discount);  
+                        $("#shippingCharge").html('₹'+response.shippingCharge);
+                        $("#grandTotal").html('₹'+response.grandTotal);
+                        $("#discount_value").html('₹'+response.discount);  
                         
                         $("#discount-response").html('');
                         $("#discount_code").val('');

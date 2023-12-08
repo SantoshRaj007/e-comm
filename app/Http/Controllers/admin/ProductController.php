@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Brand;
-use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductImage;
-use App\Models\ProductRating;
-use App\Models\SubCategory;
+use App\Models\Category;
 use App\Models\TempImage;
+use App\Models\SubCategory;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use App\Models\ProductRating;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Validator;
-use Image;
 // use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
@@ -121,7 +122,7 @@ class ProductController extends Controller
                 }
             }
 
-            $request->session()->flash('success','Product added successfully..!!!');
+            session()->flash('success','Product added successfully..!!!');
 
             return response()->json([
                 'status' => true,
@@ -214,7 +215,7 @@ class ProductController extends Controller
             //  Save Gallary Image
             
 
-            $request->session()->flash('success','Product updated successfully..!!!');
+            session()->flash('success','Product updated successfully..!!!');
 
             return response()->json([
                 'status' => true,
@@ -236,7 +237,7 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if(empty($product)) {
-            $request->session()->flash('error','Product not found');
+            session()->flash('error','Product not found');
             return response()->json([
                 'status' => false,
                 'notFound' => true
@@ -255,7 +256,7 @@ class ProductController extends Controller
         }
 
         $product->delete();
-        $request->session()->flash('success','Product deleted successfully');
+        session()->flash('success','Product deleted successfully');
 
         return response()->json([
             'status' => true,

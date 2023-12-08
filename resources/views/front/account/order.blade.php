@@ -43,6 +43,7 @@
                                         </td>
                                         <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M, Y')}}</td>
                                         <td>
+                                            <a href="{{ route('account.orderDetail',$order->id) }}">
                                             @if ($order->status == 'pending')
                                                 <span class="badge bg-danger">Pending</span>
                                                 @elseif ($order->status == 'shipped')
@@ -51,9 +52,9 @@
                                                 <span class="badge bg-success">Delivered</span>
                                                 @else
                                                 <span class="badge bg-danger">Cancelled</span>
-                                            @endif                                                                                        
+                                            @endif                                                                   </a>                     
                                         </td>
-                                        <td>${{ number_format($order->grand_total,2)}}</td>
+                                        <td>₹{{ number_format($order->grand_total,2)}}</td>
                                     </tr>
                                     @endforeach
 

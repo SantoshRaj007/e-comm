@@ -63,7 +63,7 @@
                                         <h2>{{ $item->name }}</h2>
                                     </div>
                                 </td>
-                                <td>${{ $item->price }}</td>
+                                <td>₹{{ $item->price }}</td>
                                 <td>
                                     <div class="input-group quantity mx-auto" style="width: 100px;">
                                         <div class="input-group-btn">
@@ -80,7 +80,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    ${{ $item->price*$item->qty }}
+                                    ₹{{ $item->price*$item->qty }}
                                 </td>
                                 <td>
                                     <button class="btn btn-sm btn-danger" onclick="deleteItem('{{ $item->rowId }}');"><i class="fa fa-times"></i></button>
@@ -100,7 +100,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between pb-2">
                             <div>Subtotal</div>
-                            <div>${{ Cart::subtotal() }}</div>
+                            <div>₹{{ Cart::subtotal() }}</div>
                         </div>
                         {{-- <div class="d-flex justify-content-between pb-2">
                             <div>Shipping</div>

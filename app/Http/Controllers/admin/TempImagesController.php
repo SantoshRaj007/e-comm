@@ -5,8 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
-// use Intervention\Image\Facades\Image;
-use Image;
+use Intervention\Image\Facades\Image;
+// use Image;
 
 
 class TempImagesController extends Controller

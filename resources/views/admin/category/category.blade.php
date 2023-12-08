@@ -46,6 +46,7 @@
                             <th width="60">ID</th>
                             <th>Name</th>
                             <th>Slug</th>
+                            <th>Image</th>
                             <th width="100">Show on Home</th>
                             <th width="100">Status</th>
                             <th width="100">Action</th>
@@ -58,6 +59,13 @@
                                 <td><a href="{{ route('categories.edit',$category->id) }}">{{ $key+1}}</a></td>
                                 <td><a href="{{ route('categories.edit',$category->id) }}">{{ $category->name }}</a></td>
                                 <td>{{ $category->slug}}</td>
+                                <td>
+                                    @if ($category->image != "")
+                                        <img src="{{ asset('uploads/category/thumb/'.$category->image) }}" class="img-fluid rounded-full" style="height: 50px">
+                                    @else
+                                        <img src="{{ asset('admin-assets/img/default-150x150.png') }}"  class="img-fluid">
+                                     @endif
+                                </td>
                                 <td>
                                     @if ($category->showHome == 'Yes')
                                     <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">

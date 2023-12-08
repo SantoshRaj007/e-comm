@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
-use Image;
+use Intervention\Image\Facades\Image;
 // use Intervention\Image\Facades\Image;
 
 

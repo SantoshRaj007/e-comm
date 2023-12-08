@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Models\Category;
 use App\Models\TempImage;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
-use Image;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -50,7 +50,7 @@ class CategoryController extends Controller
                 $newImageName = $category->id.'.'.$ext;
                 $sPath = public_path().'/temp/'.$tempImage->name;
                 $dPath = public_path().'/uploads/category/'.$newImageName;
-                File::copy($dPath,$sPath);
+                File::copy($sPath,$dPath);
 
                 // Generate Image Thumbnail
                 $dPath = public_path().'/uploads/category/thumb/'.$newImageName;
@@ -67,7 +67,7 @@ class CategoryController extends Controller
             }
 
             // $request->session()->flash('success','Category added successfully');
-            $request->session()->flash('success','Category added successfully');
+            session()->flash('success','Category added successfully');
 
             return response()->json([
                 'status' => true,
@@ -95,7 +95,7 @@ class CategoryController extends Controller
         $category = Category::find($categoryId);
 
         if(empty($category)){
-            $request->session()->flash('error','Category not found');
+            session()->flash('error','Category not found');
             return response()->json([
                 'status' => false,
                 'notFound' => true,
@@ -166,7 +166,7 @@ class CategoryController extends Controller
     public function destroy($categoryId, Request $request){
         $category = Category::find($categoryId);
         if(empty($category)){
-            $request->session()->flash('error','Category not found');
+            session()->flash('error','Category not found');
             return response()->json([
                 'status' => true,
                 'message' => 'Category not found'
@@ -178,7 +178,7 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        $request->session()->flash('success','Category deleted successfully');
+        session()->flash('success','Category deleted successfully');
         return response()->json([
             'status' => true,
             'message' => 'Category deleted successfully'

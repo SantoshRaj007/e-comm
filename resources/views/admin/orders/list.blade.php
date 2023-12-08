@@ -53,8 +53,8 @@
                         @if ($orders->isNotEmpty())
                         @foreach ($orders as $key => $order )
                             <tr>
-                                <td><a href="{{ route('orders.detail',[$order->id]) }}">{{ $order->id }}</a></td>
-                                <td>{{ $order->name }}</td>
+                                <td><a href="{{ route('orders.detail',[$order->id]) }}">{{ $key+1 }}</a></td>
+                                <td><a href="{{ route('orders.detail',[$order->id]) }}">{{ $order->name }}</a></td>
                                 <td>{{ $order->email}}</td>
                                 <td>{{ $order->mobile}}</td>
                                 <td>

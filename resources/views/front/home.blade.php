@@ -107,10 +107,16 @@
                 <div class="col-lg-3">
                     <div class="cat-card">
                         <div class="left">
-                            @if ($category->image != "")
+                            {{-- @if ($category->image != "")
                             <img src="{{ asset('front-assets/images/cat-1.jpg') }}" alt="" class="img-fluid">
                             @endif
-                            <img src="{{ asset('front-assets/images/cat-1.jpg') }}" alt="" class="img-fluid">
+                            <img src="{{ asset('front-assets/images/cat-1.jpg') }}" alt="" class="img-fluid"> --}}
+
+                            @if ($category->image != "")
+                                <img src="{{ asset('uploads/category/thumb/'.$category->image) }}" class="img-fluid" >
+                            @else
+                                <img src="{{ asset('admin-assets/img/default-150x150.png') }}"  class="img-fluid">
+                            @endif
                         </div>
                         <div class="right">
                             <div class="cat-data">
@@ -172,9 +178,9 @@
                         <div class="card-body text-center mt-3">
                             <a class="h6 link" href="{{ route("front.product",$product->slug) }}">{{ $product->title }}</a>
                             <div class="price mt-2">
-                                <span class="h5"><strong>${{ $product->price }}</strong></span>
+                                <span class="h5"><strong>₹{{ $product->price }}</strong></span>
                                 @if ($product->compare_price > 0)
-                                <span class="h6 text-underline"><del>${{ $product->compare_price }}</del></span>
+                                <span class="h6 text-underline"><del>₹{{ $product->compare_price }}</del></span>
                                 @endif                                    
                             </div>
                         </div>                        

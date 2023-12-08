@@ -23,15 +23,15 @@
                 <div id="product-carousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner bg-light">
 
-                        {{-- @if ($product->product_images)
+                        @if ($product->product_images)
                         @foreach ($product->product_images as $key => $productImage )
                             <div class="carousel-item {{ ($key == 0) ? 'active' : '' }}">
                                 <img class="w-100 h-100" src="{{ asset('uploads/product/large/'.$productImage->image) }}" alt="Image">
                             </div> 
                         @endforeach                            
-                        @endif --}}
+                        @endif
 
-                        <div class="carousel-item">
+                        {{-- <div class="carousel-item">
                             <img class="w-100 h-100" src="{{ asset('front-assets/images/product-1.jpg')}}" alt="Image">
                         </div>
                         <div class="carousel-item active">
@@ -42,7 +42,7 @@
                         </div>
                         <div class="carousel-item">
                             <img class="w-100 h-100" src="{{ asset('front-assets/images/product-4.jpg')}}" alt="Image">
-                        </div>
+                        </div> --}}
                     </div>
                     <a class="carousel-control-prev" href="#product-carousel" data-bs-slide="prev">
                         <i class="fa fa-2x fa-angle-left text-dark"></i>
@@ -83,10 +83,10 @@
                         <small class="pt-2 pl-1">({{ ($product->product_ratings_count > 1) ? $product->product_ratings_count.' Reviews' : $product->product_ratings_count.' Review' }})</small>
                     </div>
                     @if ($product->compare_price > 0)
-                    <h2 class="price text-secondary"><del>${{ $product->compare_price }}</del></h2>
+                    <h2 class="price text-secondary"><del>₹{{ $product->compare_price }}</del></h2>
                     @endif
                     
-                    <h2 class="price ">${{ $product->price }}</h2>
+                    <h2 class="price ">₹{{ $product->price }}</h2>
 
                     {!! $product->short_description !!}
                     {{-- <a href="javascript:void(0);" onclick="addToCart({{ $product->id }});" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a> --}}
