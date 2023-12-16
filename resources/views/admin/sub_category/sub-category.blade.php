@@ -56,7 +56,7 @@
                         @if ($subCategory->isNotEmpty())
                         @foreach ($subCategory as $key => $subCategories )
                         <tr>
-                            <td>{{ $key+1 }}</td>
+                            <td>{{ $subCategories->id }}</td>
                             <td><a href="{{ route('sub-categories.edit',$subCategories->id) }}">{{ $subCategories->name }}</a></td>
                             <td>{{ $subCategories->slug }}</td>
                             <td>{{ $subCategories->categoryName }}</td>
